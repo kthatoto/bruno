@@ -8,7 +8,14 @@
 import { defineComponent } from '@vue/composition-api'
 
 export default defineComponent({
-  setup () {
+  setup (_, context: any) {
+    context.root.$fire.auth.onAuthStateChanged((user: any) => {
+      if (!user) {
+        context.root.$fire.auth.signInAnonymously()
+      } else{
+        console.log(user.uid, user)
+      }
+    })
     return {}
   }
 });
