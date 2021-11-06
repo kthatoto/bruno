@@ -21,6 +21,7 @@ export default {
     'element-ui/lib/theme-chalk/index.css'
   ],
   plugins: [
+    '@/plugins/firebase',
     '@/plugins/element-ui',
     '@/plugins/vue-composition-api'
   ],
