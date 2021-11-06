@@ -9,6 +9,7 @@ import { defineComponent } from '@vue/composition-api'
 
 export default defineComponent({
   setup (_, context: any) {
+    console.log(process.env.FIREBASE_DATABASEURL)
     context.root.$fire.auth.onAuthStateChanged((user: any) => {
       if (!user) {
         context.root.$fire.auth.signInAnonymously()
