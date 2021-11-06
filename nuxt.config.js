@@ -21,7 +21,6 @@ export default {
     'element-ui/lib/theme-chalk/index.css'
   ],
   plugins: [
-    '@/plugins/firebase',
     '@/plugins/element-ui',
     '@/plugins/vue-composition-api'
   ],
@@ -31,7 +30,27 @@ export default {
   ],
   modules: [
     '@nuxtjs/axios',
-    '@nuxtjs/dotenv'
+    '@nuxtjs/dotenv',
+    [
+      '@nuxtjs/firebase',
+      {
+        config: {
+          apiKey: process.env.FIREBASE_APIKEY,
+          authDomain: process.env.FIREBASE_AUTHDOMAIN,
+          databaseURL: process.env.FIREBASE_DATABASEURL,
+          projectId: process.env.FIREBASE_PROJECTID,
+          storageBucket: process.env.FIREBASE_STORAGEBUCKET,
+          messagingSenderId: process.env.FIREBASE_MESSAGINGSENDERID,
+          appId: process.env.FIREBASE_APPID
+        },
+        services: {
+          auth: true,
+          firestore: true,
+          storage: true,
+          database: true
+        }
+      }
+    ]
   ],
   axios: {},
   build: {
