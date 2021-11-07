@@ -13,7 +13,7 @@ export default defineComponent({
       if (!user) {
         context.root.$fire.auth.signInAnonymously()
       } else{
-        console.log(user.uid, user)
+        console.log(user.uid, user.displayName, user)
       }
     })
     return {}
