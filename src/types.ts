@@ -11,6 +11,7 @@ export interface Player {
   id: string
   name: string
   photoURL: string
+  gender: number
 }
 export interface League {
   id: string
@@ -23,4 +24,18 @@ export interface Team {
   leagueId: string
   slug: string
   name: string
+}
+export interface Game {
+  id: string
+  leagueId: string
+  teamIds: string
+  status: "not_started" | "going" | "finished"
+  order: number
+  result: any
+}
+export interface Goal {
+  id: string
+  gameId: string
+  teamId: string
+  playerId: string
 }
