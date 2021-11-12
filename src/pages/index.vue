@@ -1,5 +1,5 @@
 <template>
-  <HeaderLayout></HeaderLayout>
+  <HeaderLayout :plain="true"></HeaderLayout>
 </template>
 
 <script lang="ts">

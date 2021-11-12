@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, ref, computed } from '@vue/composition-api'
+import { defineComponent, ref, computed, watch } from '@vue/composition-api'
 import { Message } from 'element-ui'
 
 import useFirestore from '@/hooks/useFirestore'
@@ -7,13 +7,20 @@ import useFirestore from '@/hooks/useFirestore'
 export default defineComponent({
   setup (_, context: any) {
     const {
+      fetchCurrentPlayer,
+      currentPlayer,
+
       fetchEvent,
       fetchTeams,
       firstLeagueTeams,
       event,
       createPlayer
     } = useFirestore()
-    fetchEvent()
+    fetchEvent().then(() => {
+      fetchCurrentPlayer().then(() => {
+        if (currentPlayer.value) context.root.$router.push(`/${event.value.id}`)
+      })
+    })
     fetchTeams()
     const teamSelect = ref(context.root.$route.query.team || undefined)
 

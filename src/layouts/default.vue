@@ -15,7 +15,7 @@ export default defineComponent({
         fire.auth.signInAnonymously()
       } else {
         const player = await findPlayer(user.uid)
-        if (!player) {
+        if (!player.name) {
           context.root.$router.push(`/${eventId}/invite`)
           return
         }

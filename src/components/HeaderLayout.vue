@@ -2,10 +2,17 @@
 import { defineComponent } from '@vue/composition-api'
 import useFirestore from '@/hooks/useFirestore'
 
+interface Props {
+  plain: boolean
+}
 export default defineComponent({
-  setup (_, context: any) {
+  props: {
+    plain: { type: Boolean, default: false }
+  },
+  setup (props: Props, context: any) {
+    if (props.plain) return {}
     const { fetchCurrentPlayer, currentPlayer } = useFirestore()
-    fetchCurrentPlayer()
+    setTimeout(() => fetchCurrentPlayer(), 500)
     return { currentPlayer }
   }
 })
@@ -18,9 +25,11 @@ export default defineComponent({
         <img src="@/assets/logo.png">
       </router-link>
 
-      <router-link class="user-icon" to="/settings" v-if="currentPlayer">
-        <img :src="currentPlayer.photoURL">
-      </router-link>
+      <template v-if="!plain && currentPlayer">
+        <router-link class="user-icon" to="/settings">
+          <img :src="currentPlayer.photoURL">
+        </router-link>
+      </template>
     </header>
 
     <nav>
@@ -50,6 +59,15 @@ export default defineComponent({
       }
     }
     .user-icon {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      img {
+        width: 50px;
+        height: 50px;
+        border-radius: 25px;
+        object-fit: cover;
+      }
     }
   }
   nav {

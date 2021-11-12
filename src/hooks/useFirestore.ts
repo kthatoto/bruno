@@ -58,7 +58,8 @@ const firestore = (context: any) => {
   const fetchCurrentPlayer = async () => {
     if (fetched.currentPlayer) return
     const currentUser = context.root.$fire.auth.currentUser
-    state.currentPlayer = await getDataByID(fs, 'players', currentUser.uid)
+    const player = await getDataByID(fs, 'players', currentUser.uid)
+    if (player.name) state.currentPlayer = player
     if (state.currentPlayer) fetched.currentPlayer = true
   }
   const fetchEvent = async () => {
@@ -91,7 +92,8 @@ const firestore = (context: any) => {
   })
 
   const createPlayer = async (params: any) => {
-    await fs.collection('players').add(params)
+    const playerRef = fs.collection('players').doc(params.id)
+    await playerRef.set(params)
   }
 
   return {
