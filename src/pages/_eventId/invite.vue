@@ -33,6 +33,7 @@ export default defineComponent({
     }
 
     const name = ref(null)
+    const gender = ref(null)
 
     const submitting = ref(false)
     const submit = () => {
@@ -40,6 +41,7 @@ export default defineComponent({
       if (!teamSelect.value) return Message.error('チームを選択してください')
       if (!image.value) return Message.error('画像を入力してください')
       if (!name.value) return Message.error('名前を入力してください')
+      if (!gender.value)
       submitting.value = true
       const currentUser = context.root.$fire.auth.currentUser
       const imageRef = context.root.$fire.storage
@@ -53,7 +55,7 @@ export default defineComponent({
         complete: async () => {
           submitting.value = false
           const imageUrl: string = await imageRef.getDownloadURL()
-          await createPlayer({ id: currentUser.uid, name: name.value, photoURL: imageUrl })
+          await createPlayer({ id: currentUser.uid, name: name.value, photoURL: imageUrl, gender: gender.value })
           Message.success("選手登録完了！")
           context.root.$router.push(`/${event.value.id}`)
         }
@@ -70,6 +72,7 @@ export default defineComponent({
       handleFilesChange,
 
       name,
+      gender,
 
       submit
     }
@@ -99,6 +102,11 @@ export default defineComponent({
       </el-upload>
 
       <el-input class="name-input" v-model="name" placeholder="名前"></el-input>
+      <div class="radios">
+        <el-radio v-model="gender" :label="1" border>男性</el-radio>
+        <el-radio v-model="gender" :label="2" border>女性</el-radio>
+      </div>
+      <p class="note">※ 女性2点ルールのため</p>
 
       <el-button native-type="submit" type="primary">登録</el-button>
     </form>
@@ -107,7 +115,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .invite {
-  padding: 60px 20px 0;
+  padding: 40px 20px 0;
   text-align: center;
   h1 {
     font-size: 28px;
@@ -130,10 +138,28 @@ export default defineComponent({
       }
     }
   }
+  .radios {
+    display: flex;
+    margin-bottom: 16px;
+    ::v-deep {
+      .el-radio {
+        width: 45%;
+        background-color: white;
+        height: 48px;
+        &__label {
+          font-size: 20px;
+        }
+      }
+    }
+  }
+  .note {
+    margin-bottom: 32px;
+    color: gray;
+  }
   ::v-deep {
     .el-select {
       width: 100%;
-      margin-bottom: 32px;
+      margin-bottom: 24px;
       .el-input {
         input {
           height: 48px;
@@ -147,7 +173,7 @@ export default defineComponent({
       border: 1px dashed #444;
       border-radius: 50%;
       background-color: white;
-      margin-bottom: 32px;
+      margin-bottom: 24px;
       i {
         font-size: 32px;
         color: gray;
