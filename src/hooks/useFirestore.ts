@@ -4,14 +4,18 @@ import {
   provide,
   reactive,
   computed,
+  toRefs,
 } from '@vue/composition-api'
 
-import { League, Team } from '@/types'
+import { Event, League, Team } from '@/types'
 
 const getDataByID = async (fs: any, collectionName: string, id: string) => {
   const docRef: any = fs.collection(collectionName).doc(id)
   const docSnapshot: any = await docRef.get()
-  return docSnapshot.data()
+  return {
+    id: docSnapshot.id,
+    ...docSnapshot.data()
+  }
 }
 const getDataArrayBySnapshot = (snapshot: any) => {
   return snapshot.docs.map((docSnapshot: any) => {
@@ -25,23 +29,35 @@ const getDataArrayBySnapshot = (snapshot: any) => {
 const firestore = (context: any) => {
   const fs: any = context.root.$fire.firestore
   const fetched = reactive<{
+    event: boolean
     leagues: boolean
     teams: boolean
   }>({
+    event: false,
     leagues: false,
     teams: false
   })
   const state = reactive<{
     eventId?: string
+    event?: Event
     leagues: League[]
     teams: Team[]
   }>({
     eventId: context.root.$route.params.eventId,
+    event: undefined,
     leagues: [],
     teams: []
   })
 
   const findPlayer = async (uid: string) => await getDataByID(fs, 'players', uid)
+
+  const fetchEvent = async () => {
+    if (fetched.event) return
+    if (!state.eventId) return
+    state.event = await getDataByID(fs, 'events', state.eventId)
+    console.log(state.event)
+    fetched.event = true
+  }
   const fetchLeagues = async () => {
     if (fetched.leagues) return
     const snapshot = await fs.collection('leagues').where('eventId', '==', state.eventId).get()
@@ -65,12 +81,20 @@ const firestore = (context: any) => {
     return state.teams.filter((team: Team) => team.leagueId === firstLeague.value!.id)
   })
 
+  const createPlayer = async (params: any) => {
+    await fs.collection('players').add(params)
+  }
+
   return {
+    ...toRefs(state),
     findPlayer,
+    fetchEvent,
     fetchTeams,
 
     firstLeague,
-    firstLeagueTeams
+    firstLeagueTeams,
+
+    createPlayer
   }
 }
 

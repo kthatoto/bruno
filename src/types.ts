@@ -3,7 +3,14 @@ export interface AuthUser {
   displayName: string | null
   photoURL: string | null
 }
+export interface Event {
+  id: string
+  name: string
+}
 export interface Player {
+  id: string
+  name: string
+  photoURL: string
 }
 export interface League {
   id: string
