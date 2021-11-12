@@ -22,7 +22,7 @@ body,
 }
 
 .layout {
-  background-color: #fff;
+  background-color: #eee;
   min-height: 100vh;
   max-width: 414px;
   margin: 0 auto;
