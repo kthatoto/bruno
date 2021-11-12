@@ -3,6 +3,7 @@ import { defineComponent, ref, computed, watch } from '@vue/composition-api'
 import { Message } from 'element-ui'
 
 import useFirestore from '@/hooks/useFirestore'
+import { Team } from '@/types'
 
 export default defineComponent({
   setup (_, context: any) {
@@ -21,8 +22,17 @@ export default defineComponent({
         if (currentPlayer.value) context.root.$router.push(`/${event.value.id}`)
       })
     })
-    fetchTeams()
-    const teamSelect = ref(context.root.$route.query.team || undefined)
+    const validTeamSlug = ref(true)
+    const selectedTeam = ref(undefined)
+    fetchTeams().then(() => {
+      const teamSlug = context.root.$route.query.team
+      const targetTeam = firstLeagueTeams.value.find((team: Team) => team.slug === teamSlug)
+      if (!targetTeam) {
+        validTeamSlug.value = false
+        return
+      }
+      selectedTeam.value = targetTeam
+    })
 
     const image = ref(null)
     const imageUrl = ref(null)
@@ -38,7 +48,6 @@ export default defineComponent({
     const submitting = ref(false)
     const submit = () => {
       if (submitting.value) return
-      if (!teamSelect.value) return Message.error('チームを選択してください')
       if (!image.value) return Message.error('画像を入力してください')
       if (!name.value) return Message.error('名前を入力してください')
       if (!gender.value)
@@ -63,9 +72,10 @@ export default defineComponent({
     }
 
     return {
+      validTeamSlug,
       event,
       firstLeagueTeams,
-      teamSelect,
+      selectedTeam,
 
       imageUrl,
       imageList,
@@ -81,40 +91,38 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="invite">
-    <form @submit.prevent="submit">
-      <h1 v-if="event">{{ event.name }}</h1>
-      <el-select v-model="teamSelect" placeholder="チームを選択" size="large">
-        <el-option
-          v-for="team in firstLeagueTeams"
-          :key="team.id"
-          :value="team.slug"
-          :label="team.name"
-        />
-      </el-select>
+  <div class="join">
+    <template v-if="validTeamSlug">
+      <form @submit.prevent="submit">
+        <h1 v-if="event">{{ event.name }}</h1>
+        <h2 v-if="selectedTeam">あなたは「{{ selectedTeam.name }}」です</h2>
 
-      <el-upload
-        :show-file-list="false" action="" :auto-upload="false"
-        :file-list="imageList" :on-change="handleFilesChange" :on-remove="handleFilesChange"
-      >
-        <div class="thumbnail" v-if="imageUrl" :style="{backgroundImage: `url(${imageUrl})`}"></div>
-        <i v-else class="el-icon-plus"></i>
-      </el-upload>
+        <el-upload
+          :show-file-list="false" action="" :auto-upload="false"
+                                  :file-list="imageList" :on-change="handleFilesChange" :on-remove="handleFilesChange"
+                                  >
+                                  <div class="thumbnail" v-if="imageUrl" :style="{backgroundImage: `url(${imageUrl})`}"></div>
+                                  <i v-else class="el-icon-plus"></i>
+        </el-upload>
 
-      <el-input class="name-input" v-model="name" placeholder="名前"></el-input>
-      <div class="radios">
-        <el-radio v-model="gender" :label="1" border>男性</el-radio>
-        <el-radio v-model="gender" :label="2" border>女性</el-radio>
-      </div>
-      <p class="note">※ 女性2点ルールのため</p>
+        <el-input class="name-input" v-model="name" placeholder="名前"></el-input>
+        <div class="radios">
+          <el-radio v-model="gender" :label="1" border>男性</el-radio>
+          <el-radio v-model="gender" :label="2" border>女性</el-radio>
+        </div>
+        <p class="note">※ 女性2点ルールのため</p>
 
-      <el-button native-type="submit" type="primary">登録</el-button>
-    </form>
+        <el-button native-type="submit" type="primary">登録</el-button>
+      </form>
+    </template>
+    <template v-else>
+      <h2>無効なURLです</h2>
+    </template>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.invite {
+.join {
   padding: 40px 20px 0;
   text-align: center;
   h1 {

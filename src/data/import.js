@@ -4,16 +4,16 @@ const leagues = [
 ]
 const teams = {
   league1: [
-    { slug: 'league-1-a', name: 'チームA' },
-    { slug: 'league-1-b', name: 'チームB' },
-    { slug: 'league-1-c', name: 'チームC' },
-    { slug: 'league-1-d', name: 'チームD' },
+    { slug: 'albatross', name: 'チームA' },
+    { slug: 'buffalo', name: 'チームB' },
+    { slug: 'capybara', name: 'チームC' },
+    { slug: 'dolphin', name: 'チームD' },
   ],
   league2: [
-    { slug: 'league-2-a', name: 'チームA' },
-    { slug: 'league-2-b', name: 'チームB' },
-    { slug: 'league-2-c', name: 'チームC' },
-    { slug: 'league-2-d', name: 'チームD' },
+    { slug: 'eagle', name: 'チームA' },
+    { slug: 'falcon', name: 'チームB' },
+    { slug: 'giraffe', name: 'チームC' },
+    { slug: 'horse', name: 'チームD' },
   ],
 }
 export default async (fs) => {

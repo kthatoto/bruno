@@ -16,7 +16,7 @@ export default defineComponent({
       } else {
         const player = await findPlayer(user.uid)
         if (!player.name) {
-          context.root.$router.push(`/${eventId}/invite`)
+          context.root.$router.push(`/${eventId}/join`)
           return
         }
       }
