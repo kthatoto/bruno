@@ -7,7 +7,7 @@ import {
   toRefs,
 } from '@vue/composition-api'
 
-import { Event, League, Team } from '@/types'
+import { Event, League, Team, Player } from '@/types'
 
 const getDataByID = async (fs: any, collectionName: string, id: string) => {
   const docRef: any = fs.collection(collectionName).doc(id)
@@ -29,20 +29,24 @@ const getDataArrayBySnapshot = (snapshot: any) => {
 const firestore = (context: any) => {
   const fs: any = context.root.$fire.firestore
   const fetched = reactive<{
+    currentPlayer: boolean
     event: boolean
     leagues: boolean
     teams: boolean
   }>({
+    currentPlayer: false,
     event: false,
     leagues: false,
     teams: false
   })
   const state = reactive<{
+    currentPlayer?: Player
     eventId?: string
     event?: Event
     leagues: League[]
     teams: Team[]
   }>({
+    currentPlayer: undefined,
     eventId: context.root.$route.params.eventId,
     event: undefined,
     leagues: [],
@@ -51,6 +55,12 @@ const firestore = (context: any) => {
 
   const findPlayer = async (uid: string) => await getDataByID(fs, 'players', uid)
 
+  const fetchCurrentPlayer = async () => {
+    if (fetched.currentPlayer) return
+    const currentUser = context.root.$fire.auth.currentUser
+    state.currentPlayer = await getDataByID(fs, 'players', currentUser.uid)
+    if (state.currentPlayer) fetched.currentPlayer = true
+  }
   const fetchEvent = async () => {
     if (fetched.event) return
     if (!state.eventId) return
@@ -87,6 +97,7 @@ const firestore = (context: any) => {
   return {
     ...toRefs(state),
     findPlayer,
+    fetchCurrentPlayer,
     fetchEvent,
     fetchTeams,
 
