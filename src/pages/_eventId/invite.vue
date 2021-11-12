@@ -10,20 +10,19 @@ export default defineComponent({
     const teamSelect = ref(context.root.$route.query.team || undefined)
 
     const imageRef = ref(null)
+    const imageUrl = ref(null)
     const imageList = computed(() => imageRef.value === null ? [] : [imageRef.value])
     const handleFilesChange = (file: any, fileList: any[]) => {
-      if (fileList.length === 0) {
-        imageRef.value = null
-        return
-      }
+      console.log(fileList)
       imageRef.value = file
+      imageUrl.value = URL.createObjectURL(file.raw)
     }
 
     return {
       firstLeagueTeams,
       teamSelect,
 
-      imageRef,
+      imageUrl,
       imageList,
       handleFilesChange
     }
@@ -42,10 +41,10 @@ export default defineComponent({
       />
     </el-select>
     <el-upload
-      :show-file-list="false" :limit="1" action="" :auto-upload="false"
+      :show-file-list="false" action="" :auto-upload="false"
       :file-list="imageList" :on-change="handleFilesChange" :on-remove="handleFilesChange"
     >
-      <img v-if="imageRef" :src="imageRef.url">
+      <div class="thumbnail" v-if="imageUrl" :style="{backgroundImage: `url(${imageUrl})`}"></div>
       <i v-else class="el-icon-plus"></i>
     </el-upload>
   </div>
@@ -55,6 +54,14 @@ export default defineComponent({
 .invite {
   padding: 120px 20px 0;
   text-align: center;
+  .thumbnail {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 50%;
+  }
   ::v-deep {
     .el-select {
       width: 100%;
