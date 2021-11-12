@@ -58,6 +58,7 @@ const firestore = (context: any) => {
   const fetchCurrentPlayer = async () => {
     if (fetched.currentPlayer) return
     const currentUser = context.root.$fire.auth.currentUser
+    if (!currentUser) return
     const player = await getDataByID(fs, 'players', currentUser.uid)
     if (player.name) state.currentPlayer = player
     if (state.currentPlayer) fetched.currentPlayer = true
