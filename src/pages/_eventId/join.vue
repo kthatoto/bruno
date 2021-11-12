@@ -95,7 +95,7 @@ export default defineComponent({
     <template v-if="teamIdValid">
       <form @submit.prevent="submit">
         <h1 v-if="event">{{ event.name }}</h1>
-        <h2 v-if="selectedTeam">あなたは「{{ selectedTeam.name }}」です</h2>
+        <h2 v-if="selectedTeam">あなたは「{{ selectedTeam.name }}チーム」です</h2>
 
         <el-upload
           :show-file-list="false" action="" :auto-upload="false"
@@ -127,7 +127,11 @@ export default defineComponent({
   text-align: center;
   h1 {
     font-size: 28px;
-    margin-bottom: 32px;
+    margin-bottom: 16px;
+  }
+  h2 {
+    font-size: 20px;
+    margin-bottom: 16px;
   }
   .thumbnail {
     width: 100%;

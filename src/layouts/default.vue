@@ -14,11 +14,11 @@ export default defineComponent({
       if (!user) {
         fire.auth.signInAnonymously()
       } else {
-        const player = await findPlayer(user.uid)
-        if (!player.name) {
-          context.root.$router.push(`/${eventId}/join`)
-          return
-        }
+        // const player = await findPlayer(user.uid)
+        // if (!player.name) {
+        //   context.root.$router.push(`/${eventId}/join`)
+        //   return
+        // }
       }
     })
   }
