@@ -55,7 +55,6 @@ const firestore = (context: any) => {
     if (fetched.event) return
     if (!state.eventId) return
     state.event = await getDataByID(fs, 'events', state.eventId)
-    console.log(state.event)
     fetched.event = true
   }
   const fetchLeagues = async () => {
