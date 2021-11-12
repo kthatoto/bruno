@@ -24,7 +24,6 @@ export default defineComponent({
       image.value = file
       imageUrl.value = URL.createObjectURL(file.raw)
     }
-    console.log(context.root.$fire)
 
     const name = ref(null)
 
@@ -47,7 +46,6 @@ export default defineComponent({
         complete: async () => {
           submitting.value = false
           const imageUrl: string = await imageRef.getDownloadURL()
-          await currentUser.updateProfile({ photoURL: imageUrl, displayName: name.value })
           await createPlayer({ id: currentUser.uid, name: name.value, photoURL: imageUrl })
           Message.success("選手登録完了！")
           context.root.$router.push(`/${event.value.id}`)
