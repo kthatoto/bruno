@@ -22,7 +22,6 @@ export interface League {
 export interface Team {
   id: string
   leagueId: string
-  slug: string
   name: string
 }
 export interface Game {

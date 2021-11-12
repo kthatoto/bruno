@@ -22,13 +22,13 @@ export default defineComponent({
         if (currentPlayer.value) context.root.$router.push(`/${event.value.id}`)
       })
     })
-    const validTeamSlug = ref(true)
+    const validTeamId = ref(true)
     const selectedTeam = ref(undefined)
     fetchTeams().then(() => {
-      const teamSlug = context.root.$route.query.team
-      const targetTeam = firstLeagueTeams.value.find((team: Team) => team.slug === teamSlug)
+      const teamId = context.root.$route.query.team
+      const targetTeam = firstLeagueTeams.value.find((team: Team) => team.id === teamId)
       if (!targetTeam) {
-        validTeamSlug.value = false
+        validTeamId.value = false
         return
       }
       selectedTeam.value = targetTeam
@@ -72,7 +72,7 @@ export default defineComponent({
     }
 
     return {
-      validTeamSlug,
+      validTeamId,
       event,
       firstLeagueTeams,
       selectedTeam,
@@ -92,7 +92,7 @@ export default defineComponent({
 
 <template>
   <div class="join">
-    <template v-if="validTeamSlug">
+    <template v-if="validTeamId">
       <form @submit.prevent="submit">
         <h1 v-if="event">{{ event.name }}</h1>
         <h2 v-if="selectedTeam">あなたは「{{ selectedTeam.name }}」です</h2>

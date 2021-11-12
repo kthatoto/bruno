@@ -4,16 +4,16 @@ const leagues = [
 ]
 const teams = {
   league1: [
-    { slug: 'albatross', name: 'Albatross' },
-    { slug: 'buffalo', name: 'Buffalo' },
-    { slug: 'capybara', name: 'Capybara' },
-    { slug: 'dolphin', name: 'Dolphin' },
+    { id: 'albatross', name: 'Albatross' },
+    { id: 'buffalo', name: 'Buffalo' },
+    { id: 'capybara', name: 'Capybara' },
+    { id: 'dolphin', name: 'Dolphin' },
   ],
   league2: [
-    { slug: 'eagle', name: 'Eagle' },
-    { slug: 'falcon', name: 'Falcon' },
-    { slug: 'giraffe', name: 'Giraffe' },
-    { slug: 'horse', name: 'Horse' },
+    { id: 'eagle', name: 'Eagle' },
+    { id: 'falcon', name: 'Falcon' },
+    { id: 'giraffe', name: 'Giraffe' },
+    { id: 'horse', name: 'Horse' },
   ],
 }
 const games = {
@@ -40,14 +40,19 @@ export default async (fs) => {
     await leagueRef.set(league)
 
     teams[`league${league.order}`].forEach(async (team) => {
-      const teamRef = fs.collection('teams').doc(team.slug)
-      await teamRef.set({ ...team, leagueId: league.id })
+      const teamRef = fs.collection('teams').doc(team.id)
+      await teamRef.set({
+        ...team,
+        leagueId: league.id
+      })
     })
 
     games[`league${league.order}`].forEach(async (game) => {
-      const gameRef = fs.collection('games').doc(`game${game.order}`)
+      const id = `game${game.order}`
+      const gameRef = fs.collection('games').doc(id)
       await gameRef.set({
         ...game,
+        id,
         leagueId: league.id,
         status: 'not_started',
         result: null
