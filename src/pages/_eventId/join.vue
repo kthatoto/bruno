@@ -22,13 +22,13 @@ export default defineComponent({
         if (currentPlayer.value) context.root.$router.push(`/${event.value.id}`)
       })
     })
-    const validTeamId = ref(true)
+    const teamIdValid = ref(true)
     const selectedTeam = ref(undefined)
     fetchTeams().then(() => {
       const teamId = context.root.$route.query.team
       const targetTeam = firstLeagueTeams.value.find((team: Team) => team.id === teamId)
       if (!targetTeam) {
-        validTeamId.value = false
+        teamIdValid.value = false
         return
       }
       selectedTeam.value = targetTeam
@@ -64,7 +64,7 @@ export default defineComponent({
         complete: async () => {
           submitting.value = false
           const imageUrl: string = await imageRef.getDownloadURL()
-          await createPlayer({ id: currentUser.uid, name: name.value, photoURL: imageUrl, gender: gender.value })
+          await createPlayer({ id: currentUser.uid, name: name.value, photoURL: imageUrl, gender: gender.value }, selectedTeam.value!.id)
           Message.success("選手登録完了！")
           context.root.$router.push(`/${event.value.id}`)
         }
@@ -72,7 +72,7 @@ export default defineComponent({
     }
 
     return {
-      validTeamId,
+      teamIdValid,
       event,
       firstLeagueTeams,
       selectedTeam,
@@ -92,7 +92,7 @@ export default defineComponent({
 
 <template>
   <div class="join">
-    <template v-if="validTeamId">
+    <template v-if="teamIdValid">
       <form @submit.prevent="submit">
         <h1 v-if="event">{{ event.name }}</h1>
         <h2 v-if="selectedTeam">あなたは「{{ selectedTeam.name }}」です</h2>

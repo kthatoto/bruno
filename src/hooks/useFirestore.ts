@@ -92,9 +92,13 @@ const firestore = (context: any) => {
     return state.teams.filter((team: Team) => team.leagueId === firstLeague.value!.id)
   })
 
-  const createPlayer = async (params: any) => {
+  const createPlayer = async (params: any, teamId: string) => {
     const playerRef = fs.collection('players').doc(params.id)
     await playerRef.set(params)
+    fs.collection('memberships').add({
+      playerId: params.id,
+      teamId
+    })
   }
 
   return {

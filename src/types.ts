@@ -13,6 +13,10 @@ export interface Player {
   photoURL: string
   gender: number
 }
+export interface Membership {
+  playerId: string
+  teamId: string
+}
 export interface League {
   id: string
   name: string
