@@ -12,24 +12,24 @@ const teams = {
     { id: 'dolphin', name: 'Dolphin' },
     { id: 'eagle', name: 'Eagle' },
     { id: 'falcon', name: 'Falcon' }
-  ]
+  ],
 }
 const games = {
   league1: [
     { teamIds: 'albatross,buffalo', order: 1 },
-    { teamIds: 'capybara,dolphin', order: 2 },
-    { teamIds: 'dolphin,albatross', order: 3 },
-    { teamIds: 'albatross,capybara', order: 4 },
-    { teamIds: 'capybara,buffalo', order: 5 },
-    { teamIds: 'buffalo,dolphin', order: 6 }
+    { teamIds: 'buffalo,capybara', order: 2 },
+    { teamIds: 'capybara,albatross', order: 3 },
+    { teamIds: 'albatross,buffalo', order: 4 },
+    { teamIds: 'buffalo,capybara', order: 5 },
+    { teamIds: 'capybara,albatross', order: 6 }
   ],
   league2: [
-    { teamIds: 'eagle,falcon', order: 7 },
-    { teamIds: 'giraffe,horse', order: 8 },
-    { teamIds: 'horse,eagle', order: 9 },
-    { teamIds: 'eagle,giraffe', order: 10 },
-    { teamIds: 'giraffe,falcon', order: 11 },
-    { teamIds: 'falcon,horse', order: 12 }
+    { teamIds: 'dolphin,eagle', order: 7 },
+    { teamIds: 'eagle,falcon', order: 8 },
+    { teamIds: 'falcon,dolphin', order: 9 },
+    { teamIds: 'dolphin,eagle', order: 10 },
+    { teamIds: 'eagle,falcon', order: 11 },
+    { teamIds: 'falcon,dolphin', order: 12 }
   ]
 }
 export default async (fs) => {
