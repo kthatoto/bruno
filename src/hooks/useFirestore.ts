@@ -118,9 +118,9 @@ const firestore = (context: any) => {
     return state.teams.filter((team: Team) => team.leagueId === firstLeague.value!.id)
   })
   const onGoingGameInfo = computed(() => {
-    // if (state.games.length === 0) return
-    // const game = state.games.find((g: Game) => g.status === 'going')
-    // if (!game) return
+    if (state.games.length === 0) return
+    const game = state.games.find((g: Game) => g.status === 'going')
+    if (!game) return
     return {
       left: {
         teamName: "Albatross",

@@ -34,8 +34,8 @@ export default defineComponent({
 
     <nav>
       <router-link to="/xbit-futsal-second">Home</router-link>
-      <router-link to="/xbit-futsal-second/Team">Team</router-link>
-      <router-link to="/xbit-futsal-second/result">Result</router-link>
+      <router-link to="/xbit-futsal-second/team">Team</router-link>
+      <router-link to="/xbit-futsal-second/players">Players</router-link>
       <router-link to="/xbit-futsal-second/ranking">Ranking</router-link>
     </nav>
 
