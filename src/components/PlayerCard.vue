@@ -11,7 +11,7 @@ export default defineComponent({
     const niced = ref(false)
     const tryNice = () => {
       if (props.nicable) {
-        postNice(props.player.id)
+        postNice(props.player!.id)
         context.emit('postedNice')
         niced.value = true
         setTimeout(() => niced.value = false, 5000)

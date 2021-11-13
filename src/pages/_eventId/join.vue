@@ -19,14 +19,14 @@ export default defineComponent({
     } = useFirestore()
     fetchEvent().then(() => {
       fetchCurrentPlayer().then(() => {
-        if (currentPlayer.value) context.root.$router.push(`/${event.value.id}`)
+        if (currentPlayer!.value) context.root.$router.push(`/${event!.value!.id}`)
       })
     })
     const teamIdValid = ref(true)
-    const selectedTeam = ref(undefined)
+    const selectedTeam = ref<Team | undefined>(undefined)
     fetchTeams().then(() => {
       const teamId = context.root.$route.query.team
-      const targetTeam = firstLeagueTeams.value.find((team: Team) => team.id === teamId)
+      const targetTeam = firstLeagueTeams.value!.find((team: Team) => team.id === teamId)
       if (!targetTeam) {
         teamIdValid.value = false
         return
@@ -34,8 +34,8 @@ export default defineComponent({
       selectedTeam.value = targetTeam
     })
 
-    const image = ref(null)
-    const imageUrl = ref(null)
+    const image = ref<any>(null)
+    const imageUrl = ref<string | null>(null)
     const imageList = computed(() => image.value === null ? [] : [image.value])
     const handleFilesChange = (file: any, fileList: any[]) => {
       image.value = file
@@ -55,7 +55,7 @@ export default defineComponent({
       const currentUser = context.root.$fire.auth.currentUser
       const imageRef = context.root.$fire.storage
         .ref(`user_profiles/${currentUser.uid}-${image.value!.name}`)
-      const uploadTask = imageRef.put(image.value.raw)
+      const uploadTask = imageRef.put(image.value!.raw)
       uploadTask.on('state_changed', {
         error: async () => {
           submitting.value = false
@@ -66,7 +66,7 @@ export default defineComponent({
           const imageUrl: string = await imageRef.getDownloadURL()
           await createPlayer({ id: currentUser.uid, name: name.value, photoURL: imageUrl, gender: gender.value }, selectedTeam.value!.id)
           Message.success("選手登録完了！")
-          context.root.$router.push(`/${event.value.id}`)
+          context.root.$router.push(`/${event!.value!.id}`)
         }
       })
     }
