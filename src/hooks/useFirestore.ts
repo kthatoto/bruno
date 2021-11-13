@@ -7,7 +7,7 @@ import {
   toRefs,
 } from '@vue/composition-api'
 
-import { Event, League, Team, Player, Game, GameStatus } from '@/types'
+import { Event, League, Team, Membership, Player, Game, GameStatus } from '@/types'
 
 const getDataByID = async (fs: any, collectionName: string, id: string) => {
   const docRef: any = fs.collection(collectionName).doc(id)
@@ -33,11 +33,15 @@ const firestore = (context: any) => {
     event: boolean
     leagues: boolean
     teams: boolean
+    memberships: boolean
+    players: boolean
   }>({
     currentPlayer: false,
     event: false,
     leagues: false,
-    teams: false
+    teams: false,
+    memberships: false,
+    players: false
   })
   const state = reactive<{
     currentPlayer?: Player
@@ -46,13 +50,17 @@ const firestore = (context: any) => {
     leagues: League[]
     teams: Team[]
     games: Game[]
+    memberships: Membership[]
+    players: Player[]
   }>({
     currentPlayer: undefined,
     eventId: context.root.$route.params.eventId,
     event: undefined,
     leagues: [],
     teams: [],
-    games: []
+    games: [],
+    memberships: [],
+    players: []
   })
 
   const findPlayer = async (uid: string) => await getDataByID(fs, 'players', uid)
@@ -88,6 +96,16 @@ const firestore = (context: any) => {
     if (!fetched.leagues) await fetchLeagues()
     const snapshot = await fs.collection('games').where('leagueId', 'in', state.leagues.map((l: League) => l.id)).get()
     state.games = getDataArrayBySnapshot(snapshot)
+  }
+  const fetchMemberships = async () => {
+    if (!fetched.teams) await fetchTeams()
+    const snapshot = await fs.collection('memberships').where('teamId', 'in', state.teams.map((t: Team) => t.id)).get()
+    state.memberships = getDataArrayBySnapshot(snapshot)
+  }
+  const fetchPlayers = async () => {
+    if (!fetched.memberships) await fetchMemberships()
+    const snapshot = await fs.collection('players').where('id', 'in', state.memberships.map((m: Membership) => m.playerId)).get()
+    state.players = getDataArrayBySnapshot(snapshot)
   }
 
   const firstLeague = computed<League | undefined>(() => {
@@ -161,6 +179,8 @@ const firestore = (context: any) => {
     fetchEvent,
     fetchTeams,
     fetchGames,
+    fetchMemberships,
+    fetchPlayers,
 
     firstLeague,
     firstLeagueTeams,
