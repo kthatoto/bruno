@@ -28,7 +28,12 @@ export default defineComponent({
       <h2>ランキング</h2>
 
       <div class="ranking-list">
-        <div v-for="(player, i) in rankingPlayers" :key="player.id" class="ranking-item">
+        <div
+          v-for="(player, i) in rankingPlayers"
+          :key="player.id"
+          class="ranking-item"
+          :class="`-rank${i + 1}`"
+        >
           <div class="ranking-rank">{{ i + 1 }}位</div>
           <img :src="player.photoURL">
           <div class="ranking-name">{{ player.name }}</div>
@@ -47,7 +52,34 @@ export default defineComponent({
     border-bottom: 1px solid gray;
   }
   &-item {
+    padding: 8px 16px;
     display: flex;
+    &.-rank1 {
+      .ranking-rank {
+        color: gold;
+        font-size: 32px;
+      }
+    }
+    &.-rank2 {
+      .ranking-rank {
+        color: silver;
+        font-size: 28px;
+      }
+    }
+    &.-rank3 {
+      .ranking-rank {
+        color: tan;
+        font-size: 24px;
+      }
+    }
+    img {
+      width: 50px;
+      height: 50px;
+      border-radius: 25px;
+    }
+  }
+  &-niceCount {
+    font-weight: bold;
   }
 }
 </style>
