@@ -7,7 +7,7 @@ import { provideFirestore } from '@/hooks/useFirestore'
 export default defineComponent({
   setup (_, context: any) {
     const fire = context.root.$fire
-    const { findPlayer } = provideFirestore(context)
+    provideFirestore(context)
 
     const eventId = context.root.$route.params.eventId
     fire.auth.onAuthStateChanged(async (user: AuthUser) => {

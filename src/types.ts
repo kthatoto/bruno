@@ -28,11 +28,12 @@ export interface Team {
   leagueId: string
   name: string
 }
+export type GameStatus = "not_started" | "going" | "finished"
 export interface Game {
   id: string
   leagueId: string
   teamIds: string
-  status: "not_started" | "going" | "finished"
+  status: GameStatus
   order: number
   result: any
 }

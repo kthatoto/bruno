@@ -7,7 +7,7 @@ import {
   toRefs,
 } from '@vue/composition-api'
 
-import { Event, League, Team, Player } from '@/types'
+import { Event, League, Team, Player, Game, GameStatus } from '@/types'
 
 const getDataByID = async (fs: any, collectionName: string, id: string) => {
   const docRef: any = fs.collection(collectionName).doc(id)
@@ -45,12 +45,14 @@ const firestore = (context: any) => {
     event?: Event
     leagues: League[]
     teams: Team[]
+    games: Game[]
   }>({
     currentPlayer: undefined,
     eventId: context.root.$route.params.eventId,
     event: undefined,
     leagues: [],
-    teams: []
+    teams: [],
+    games: []
   })
 
   const findPlayer = async (uid: string) => await getDataByID(fs, 'players', uid)
@@ -82,6 +84,11 @@ const firestore = (context: any) => {
     state.teams = getDataArrayBySnapshot(snapshot)
     fetched.teams = true
   }
+  const fetchGames = async () => {
+    if (!fetched.leagues) await fetchLeagues()
+    const snapshot = await fs.collection('games').where('leagueId', 'in', state.leagues.map((l: League) => l.id)).get()
+    state.games = getDataArrayBySnapshot(snapshot)
+  }
 
   const firstLeague = computed<League | undefined>(() => {
     if (!fetched.leagues) return
@@ -90,6 +97,10 @@ const firestore = (context: any) => {
   const firstLeagueTeams = computed<Team[] | undefined>(() => {
     if (!fetched.teams || !fetched.leagues) return
     return state.teams.filter((team: Team) => team.leagueId === firstLeague.value!.id)
+  })
+  const onGoingGame = computed<Game | undefined>(() => {
+    if (state.games.length === 0) return
+    return state.games.find((g: Game) => g.status === 'going')
   })
 
   const createPlayer = async (params: any, teamId: string) => {
@@ -100,6 +111,10 @@ const firestore = (context: any) => {
       teamId
     })
   }
+  const updateGameStatus = async (gameId: string, status: GameStatus) => {
+    const gameRef = fs.collection('games').doc(gameId)
+    await gameRef.update({ status })
+  }
 
   return {
     ...toRefs(state),
@@ -107,11 +122,14 @@ const firestore = (context: any) => {
     fetchCurrentPlayer,
     fetchEvent,
     fetchTeams,
+    fetchGames,
 
     firstLeague,
     firstLeagueTeams,
+    onGoingGame,
 
-    createPlayer
+    createPlayer,
+    updateGameStatus
   }
 }
 
