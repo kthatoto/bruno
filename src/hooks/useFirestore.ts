@@ -98,9 +98,34 @@ const firestore = (context: any) => {
     if (!fetched.teams || !fetched.leagues) return
     return state.teams.filter((team: Team) => team.leagueId === firstLeague.value!.id)
   })
-  const onGoingGame = computed<Game | undefined>(() => {
-    if (state.games.length === 0) return
-    return state.games.find((g: Game) => g.status === 'going')
+  const onGoingGameInfo = computed(() => {
+    // if (state.games.length === 0) return
+    // const game = state.games.find((g: Game) => g.status === 'going')
+    // if (!game) return
+    return {
+      left: {
+        teamName: "Albatross",
+        players: [
+          { name: "あああああああ", photoURL: "https://pics.prcm.jp/b61765cc61ae6/77484629/jpeg/77484629.jpeg" },
+          { name: "いいいいいいい", photoURL: "https://pics.prcm.jp/b61765cc61ae6/77484629/jpeg/77484629.jpeg" },
+          { name: "ううううううう", photoURL: "https://pics.prcm.jp/b61765cc61ae6/77484629/jpeg/77484629.jpeg" },
+          { name: "えええええええ", photoURL: "https://pics.prcm.jp/b61765cc61ae6/77484629/jpeg/77484629.jpeg" },
+          { name: "おおおおおおお", photoURL: "https://pics.prcm.jp/b61765cc61ae6/77484629/jpeg/77484629.jpeg" },
+          { name: "かかかかかかか", photoURL: "https://pics.prcm.jp/b61765cc61ae6/77484629/jpeg/77484629.jpeg" }
+        ]
+      },
+      right: {
+        teamName: "Buffalo",
+        players: [
+          { name: "あああああああ", photoURL: "https://pics.prcm.jp/b61765cc61ae6/77484629/jpeg/77484629.jpeg" },
+          { name: "いいいいいいい", photoURL: "https://pics.prcm.jp/b61765cc61ae6/77484629/jpeg/77484629.jpeg" },
+          { name: "ううううううう", photoURL: "https://pics.prcm.jp/b61765cc61ae6/77484629/jpeg/77484629.jpeg" },
+          { name: "えええええええ", photoURL: "https://pics.prcm.jp/b61765cc61ae6/77484629/jpeg/77484629.jpeg" },
+          { name: "おおおおおおお", photoURL: "https://pics.prcm.jp/b61765cc61ae6/77484629/jpeg/77484629.jpeg" },
+          { name: "かかかかかかか", photoURL: "https://pics.prcm.jp/b61765cc61ae6/77484629/jpeg/77484629.jpeg" }
+        ]
+      }
+    }
   })
 
   const createPlayer = async (params: any, teamId: string) => {
@@ -126,7 +151,7 @@ const firestore = (context: any) => {
 
     firstLeague,
     firstLeagueTeams,
-    onGoingGame,
+    onGoingGameInfo,
 
     createPlayer,
     updateGameStatus

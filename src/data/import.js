@@ -6,15 +6,13 @@ const teams = {
   league1: [
     { id: 'albatross', name: 'Albatross' },
     { id: 'buffalo', name: 'Buffalo' },
-    { id: 'capybara', name: 'Capybara' },
-    { id: 'dolphin', name: 'Dolphin' },
+    { id: 'capybara', name: 'Capybara' }
   ],
   league2: [
+    { id: 'dolphin', name: 'Dolphin' },
     { id: 'eagle', name: 'Eagle' },
-    { id: 'falcon', name: 'Falcon' },
-    { id: 'giraffe', name: 'Giraffe' },
-    { id: 'horse', name: 'Horse' },
-  ],
+    { id: 'falcon', name: 'Falcon' }
+  ]
 }
 const games = {
   league1: [
