@@ -13,7 +13,7 @@ export default defineComponent({
     } = useFirestore()
     fetchPlayers()
 
-    const rankingPlayers = computed(() => players.value.sort((p: Player) => p.niceCount))
+    const rankingPlayers = computed(() => players.value.sort((p: Player) => -p.niceCount))
 
     return {
       rankingPlayers
