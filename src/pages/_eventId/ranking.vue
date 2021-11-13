@@ -36,8 +36,10 @@ export default defineComponent({
         >
           <div class="ranking-rank">{{ i + 1 }}位</div>
           <img :src="player.photoURL">
-          <div class="ranking-name">{{ player.name }}</div>
-          <div class="ranking-niceCount">{{ player.niceCount }} Nices!</div>
+          <div class="ranking-player">
+            <div class="ranking-name">{{ player.name }}</div>
+            <div class="ranking-niceCount">{{ player.niceCount }} Nices!</div>
+          </div>
         </div>
       </div>
     </div>
@@ -78,8 +80,19 @@ export default defineComponent({
       border-radius: 25px;
     }
   }
+  &-rank {
+    width: 60px;
+    text-align: right;
+    padding-right: 5px;
+  }
   &-niceCount {
     font-weight: bold;
+  }
+  &-player {
+    flex: 1;
+    padding-left: 16px;
+    display: flex;
+    justify-content: space-between;
   }
 }
 </style>

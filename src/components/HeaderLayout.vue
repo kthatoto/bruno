@@ -80,7 +80,7 @@ export default defineComponent({
       text-decoration: none;
       font-weight: bold;
       padding: 4px 8px;
-      &.nuxt-link-active {
+      &.nuxt-link-exact-active {
         background-color: #666;
         color: white;
         border-radius: 40px;

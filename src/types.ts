@@ -12,6 +12,7 @@ export interface Player {
   name: string
   photoURL: string
   gender: number
+  niceCount: number
 }
 export interface Membership {
   playerId: string

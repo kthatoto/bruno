@@ -104,6 +104,7 @@ const firestore = (context: any) => {
   }
   const fetchPlayers = async () => {
     if (!fetched.memberships) await fetchMemberships()
+    console.log(state.memberships)
     const snapshot = await fs.collection('players').where('id', 'in', state.memberships.map((m: Membership) => m.playerId)).get()
     state.players = getDataArrayBySnapshot(snapshot)
   }
