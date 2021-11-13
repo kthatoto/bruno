@@ -106,23 +106,23 @@ const firestore = (context: any) => {
       left: {
         teamName: "Albatross",
         players: [
-          { id: 'ppB7PrJa2dRIxSks2pK0ryc6KH42', name: "あああああああ", photoURL: "https://pics.prcm.jp/b61765cc61ae6/77484629/jpeg/77484629.jpeg" },
-          { name: "いいいいいいい", photoURL: "https://pics.prcm.jp/b61765cc61ae6/77484629/jpeg/77484629.jpeg" },
-          { name: "ううううううう", photoURL: "https://pics.prcm.jp/b61765cc61ae6/77484629/jpeg/77484629.jpeg" },
-          { name: "えええええええ", photoURL: "https://pics.prcm.jp/b61765cc61ae6/77484629/jpeg/77484629.jpeg" },
-          { name: "おおおおおおお", photoURL: "https://pics.prcm.jp/b61765cc61ae6/77484629/jpeg/77484629.jpeg" },
-          { name: "かかかかかかか", photoURL: "https://pics.prcm.jp/b61765cc61ae6/77484629/jpeg/77484629.jpeg" }
+          { id: 'ppB7PrJa2dRIxSks2pK0ryc6KH42', name: "ああああああ", photoURL: "https://pics.prcm.jp/b61765cc61ae6/77484629/jpeg/77484629.jpeg" },
+          { name: "いいいいいい", photoURL: "https://pics.prcm.jp/b61765cc61ae6/77484629/jpeg/77484629.jpeg" },
+          { name: "うううううう", photoURL: "https://pics.prcm.jp/b61765cc61ae6/77484629/jpeg/77484629.jpeg" },
+          { name: "ええええええ", photoURL: "https://pics.prcm.jp/b61765cc61ae6/77484629/jpeg/77484629.jpeg" },
+          { name: "おおおおおお", photoURL: "https://pics.prcm.jp/b61765cc61ae6/77484629/jpeg/77484629.jpeg" },
+          { name: "かかかかかか", photoURL: "https://pics.prcm.jp/b61765cc61ae6/77484629/jpeg/77484629.jpeg" }
         ]
       },
       right: {
         teamName: "Buffalo",
         players: [
-          { name: "あああああああ", photoURL: "https://pics.prcm.jp/b61765cc61ae6/77484629/jpeg/77484629.jpeg" },
-          { name: "いいいいいいい", photoURL: "https://pics.prcm.jp/b61765cc61ae6/77484629/jpeg/77484629.jpeg" },
-          { name: "ううううううう", photoURL: "https://pics.prcm.jp/b61765cc61ae6/77484629/jpeg/77484629.jpeg" },
-          { name: "えええええええ", photoURL: "https://pics.prcm.jp/b61765cc61ae6/77484629/jpeg/77484629.jpeg" },
-          { name: "おおおおおおお", photoURL: "https://pics.prcm.jp/b61765cc61ae6/77484629/jpeg/77484629.jpeg" },
-          { name: "かかかかかかか", photoURL: "https://pics.prcm.jp/b61765cc61ae6/77484629/jpeg/77484629.jpeg" }
+          { name: "ああああああ", photoURL: "https://pics.prcm.jp/b61765cc61ae6/77484629/jpeg/77484629.jpeg" },
+          { name: "いいいいいい", photoURL: "https://pics.prcm.jp/b61765cc61ae6/77484629/jpeg/77484629.jpeg" },
+          { name: "うううううう", photoURL: "https://pics.prcm.jp/b61765cc61ae6/77484629/jpeg/77484629.jpeg" },
+          { name: "ええええええ", photoURL: "https://pics.prcm.jp/b61765cc61ae6/77484629/jpeg/77484629.jpeg" },
+          { name: "おおおおおお", photoURL: "https://pics.prcm.jp/b61765cc61ae6/77484629/jpeg/77484629.jpeg" },
+          { name: "かかかかかか", photoURL: "https://pics.prcm.jp/b61765cc61ae6/77484629/jpeg/77484629.jpeg" }
         ]
       }
     }
@@ -146,7 +146,7 @@ const firestore = (context: any) => {
       context.root.$fireModule.firestore.FieldValue.increment(1)
     )
     const now = new Date()
-    localStorage.setItem('lastNicedAt', now.getTime())
+    localStorage.setItem('lastNicedAt', `${now.getTime()}`)
   }
 
   const updateGameStatus = async (gameId: string, status: GameStatus) => {

@@ -12,7 +12,7 @@ export default defineComponent({
       onGoingGameInfo
     } = useFirestore()
 
-    const nicable = ref(true)
+    const nicable = ref(false)
     const postedNice = () => {
       nicable.value = false
     }
@@ -23,7 +23,7 @@ export default defineComponent({
         return
       }
       const now = new Date()
-      nicable.value = now.getTime() - lastNicedAt > 30 * 1000
+      nicable.value = now.getTime() - parseInt(lastNicedAt) > 30 * 1000
     }, 1 * 1000)
 
     fetchGames()
