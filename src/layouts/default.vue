@@ -3,11 +3,14 @@ import { defineComponent } from '@vue/composition-api'
 
 import { AuthUser } from '@/types'
 import { provideFirestore } from '@/hooks/useFirestore'
+import importData from '@/data/import'
 
 export default defineComponent({
   setup (_, context: any) {
     const fire = context.root.$fire
     provideFirestore(context)
+
+    // importData(fire.firestore)
 
     const eventId = context.root.$route.params.eventId
     fire.auth.onAuthStateChanged(async (user: AuthUser) => {

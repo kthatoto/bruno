@@ -130,7 +130,10 @@ const firestore = (context: any) => {
 
   const createPlayer = async (params: any, teamId: string) => {
     const playerRef = fs.collection('players').doc(params.id)
-    await playerRef.set(params)
+    await playerRef.set({
+      ...params,
+      niceCount: 0
+    })
     fs.collection('memberships').add({
       playerId: params.id,
       teamId
