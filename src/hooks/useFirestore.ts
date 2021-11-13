@@ -106,7 +106,7 @@ const firestore = (context: any) => {
       left: {
         teamName: "Albatross",
         players: [
-          { name: "あああああああ", photoURL: "https://pics.prcm.jp/b61765cc61ae6/77484629/jpeg/77484629.jpeg" },
+          { id: 'ppB7PrJa2dRIxSks2pK0ryc6KH42', name: "あああああああ", photoURL: "https://pics.prcm.jp/b61765cc61ae6/77484629/jpeg/77484629.jpeg" },
           { name: "いいいいいいい", photoURL: "https://pics.prcm.jp/b61765cc61ae6/77484629/jpeg/77484629.jpeg" },
           { name: "ううううううう", photoURL: "https://pics.prcm.jp/b61765cc61ae6/77484629/jpeg/77484629.jpeg" },
           { name: "えええええええ", photoURL: "https://pics.prcm.jp/b61765cc61ae6/77484629/jpeg/77484629.jpeg" },
@@ -139,6 +139,16 @@ const firestore = (context: any) => {
       teamId
     })
   }
+  const postNice = async (playerId: string) => {
+    const playerRef = fs.collection('players').doc(playerId)
+    await playerRef.update(
+      'niceCount',
+      context.root.$fireModule.firestore.FieldValue.increment(1)
+    )
+    const now = new Date()
+    localStorage.setItem('lastNicedAt', now.getTime())
+  }
+
   const updateGameStatus = async (gameId: string, status: GameStatus) => {
     const gameRef = fs.collection('games').doc(gameId)
     await gameRef.update({ status })
@@ -157,6 +167,7 @@ const firestore = (context: any) => {
     onGoingGameInfo,
 
     createPlayer,
+    postNice,
     updateGameStatus
   }
 }

@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, computed } from '@vue/composition-api'
+import { defineComponent, computed, ref } from '@vue/composition-api'
 import HeaderLayout from '@/components/HeaderLayout.vue'
 import useFirestore from '@/hooks/useFirestore'
 import PlayerCard from '@/components/PlayerCard.vue'
@@ -12,12 +12,28 @@ export default defineComponent({
       onGoingGameInfo
     } = useFirestore()
 
+    const nicable = ref(true)
+    const postedNice = () => {
+      nicable.value = false
+    }
+    setInterval(() => {
+      const lastNicedAt = localStorage.getItem('lastNicedAt')
+      if (!lastNicedAt) {
+        nicable.value = true
+        return
+      }
+      const now = new Date()
+      nicable.value = now.getTime() - lastNicedAt > 30 * 1000
+    }, 1 * 1000)
+
     fetchGames()
     const left = computed(() => onGoingGameInfo.value.left)
     const right = computed(() => onGoingGameInfo.value.right)
 
     return {
       onGoingGameInfo,
+      nicable,
+      postedNice,
       left,
       right
     }
@@ -34,14 +50,26 @@ export default defineComponent({
         <div class="match">
           <div class="team left">
             <h3>{{ left.teamName }}</h3>
-            <PlayerCard v-for="(player, i) in left.players" :key="i" :player="player" />
+            <PlayerCard
+              v-for="(player, i) in left.players"
+              :key="i"
+              :player="player"
+              :nicable="nicable"
+              @postedNice="postedNice"
+            />
           </div>
 
           <div class="vs">vs</div>
 
           <div class="team right">
             <h3>{{ right.teamName }}</h3>
-            <PlayerCard v-for="(player, i) in right.players" :key="i" :player="player" />
+            <PlayerCard
+              v-for="(player, i) in right.players"
+              :key="i"
+              :player="player"
+              :nicable="nicable"
+              @postedNice="postedNice"
+            />
           </div>
         </div>
       </template>
