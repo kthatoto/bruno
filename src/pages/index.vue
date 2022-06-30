@@ -1,22 +1,15 @@
 <template>
-  <div>
-    <h1>Bruno</h1>
-  </div>
+  <HeaderLayout :plain="true"></HeaderLayout>
 </template>
 
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api'
-
+import HeaderLayout from '@/components/HeaderLayout.vue'
 export default defineComponent({
+  layout: 'plain',
+  components: { HeaderLayout },
   setup (_, context: any) {
-    context.root.$fire.auth.onAuthStateChanged((user: any) => {
-      if (!user) {
-        context.root.$fire.auth.signInAnonymously()
-      } else{
-        console.log(user.uid, user)
-      }
-    })
-    return {}
+    context.root.$router.push('/xbit-futsal-second')
   }
 });
 </script>
